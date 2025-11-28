@@ -4,7 +4,7 @@ import Card from '@mui/material/Card'
 
 export const TextToSpeech = () => {
 
-  const speechText = ['Manan', 'Vijay', 'Anuj', 'Aman', 'Sunil', 'Ravinder', 'Lokesh', 'Prince', 'Ritesh']
+  const speechText = ['Manan', 'Vijay', 'Anuj', 'Aman', 'Sunil', 'Ravinder', 'Lokesh', 'Prince', 'Ritesh', 'Gaurav']
 
   const handleSpeak = (item) => {
     const utterance = new SpeechSynthesisUtterance(`Hello ${item}`);
