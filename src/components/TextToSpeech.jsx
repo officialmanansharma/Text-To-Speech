@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 
@@ -6,24 +6,38 @@ export const TextToSpeech = () => {
 
   const speechText = ['Manan', 'Vijay', 'Anuj', 'Aman', 'Sunil', 'Ravinder', 'Lokesh', 'Prince']
 
+  const [voices, setVoices] = useState([])
+
+  // Load voices properly
+  useEffect(() => {
+    const loadVoices = () => {
+      const v = window.speechSynthesis.getVoices()
+      setVoices(v)
+    }
+
+    loadVoices()
+
+    window.speechSynthesis.onvoiceschanged = loadVoices
+  }, [])
+
   const handleSpeak = (item) => {
-    const utterance = new SpeechSynthesisUtterance(`Hello ${item}`);
+    const utterance = new SpeechSynthesisUtterance(`Hello ${item}`)
 
-    const voices = speechSynthesis.getVoices();
-    utterance.voice = voices[1];
+    if (voices.length > 0) {
+      utterance.voice = voices[1] || voices[0]
+    }
 
-    speechSynthesis.speak(utterance);
+    window.speechSynthesis.speak(utterance)
   }
 
   return (
-    <>
     <Box
-        sx={{
-            display:'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '10px'
-        }} 
+      sx={{
+        display:'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '10px'
+      }} 
     >
       {speechText.map((item, index) => (
         <Card
@@ -38,9 +52,8 @@ export const TextToSpeech = () => {
           }}
         >
           {item}
-      </Card>
+        </Card>
       ))}
     </Box>
-    </>
   )
 }
